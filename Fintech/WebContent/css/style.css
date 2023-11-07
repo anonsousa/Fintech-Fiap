@@ -1,0 +1,23 @@
+@charset "UTF-8";
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+.E-logo {
+    font-weight: 700;
+}
+
+.myweight {
+    font-weight: bold;
+}
+
+/* Icones dos cards */
+.my-icons {
+    font-size: 2rem;
+    color: #198754;
+    transition: .5s;
+}
+
+.my-icons:hover {
+    color:#09b866;
+}
