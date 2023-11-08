@@ -63,15 +63,15 @@
                             <button type="submit" class="btn btn-lg btn-success w-100 fs-6">Login</button>
                         </div>
                         
-							                        <% 
-							String erro = (String) request.getAttribute("erro");
-							if (erro != null) {
+							<% 
+								String erro = (String) request.getAttribute("erro");
+								if (erro != null) {
 							%>
-							<div class="alert alert-danger">
-							    <%= erro %>
-							</div>
+								<div class="alert alert-danger">
+							  	  <%= erro %>
+								</div>
 							<%
-							}
+								}
 							%>
                     </form>
                 <div class="input-group mb-3">

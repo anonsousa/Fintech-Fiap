@@ -15,7 +15,6 @@ public class FintechDAO {
 
     public FintechDAO() {
         try {
-            // Carrega o JDBC
             Class.forName("oracle.jdbc.driver.OracleDriver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -25,7 +24,6 @@ public class FintechDAO {
 
     public void conectar() {
         try {
-            // Estabelecer Conexao com a DB
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             if (connection != null) {
                 System.out.println("Conexão bem-sucedida com o banco de dados Oracle.");
@@ -51,7 +49,7 @@ public class FintechDAO {
     
     
     
-    //Validar Login
+    //VALIDAR LOGIN
     public boolean credenciaisValidas(String login, String senha) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -67,7 +65,7 @@ public class FintechDAO {
 
             resultSet = preparedStatement.executeQuery();
 
-            // Se houver uma linha correspondente, as credenciais são válidas
+            // SE HOUVER LINHAS CORRESPONDENTES NO BANCO DE DADOS, DA 200 NO LOGIN
             return resultSet.next();
         } catch (SQLException e) {
             e.printStackTrace();
