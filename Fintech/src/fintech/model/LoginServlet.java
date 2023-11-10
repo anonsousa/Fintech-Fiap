@@ -17,7 +17,6 @@ public class LoginServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Lógica do tratamento do login por GET
     }
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
