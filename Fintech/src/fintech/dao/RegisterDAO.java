@@ -4,10 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.UUID;
-
-import fintech.model.Usuario; 
+import java.sql.SQLException; 
 
 public class RegisterDAO {
 	FintechDAO fintechDAO = new FintechDAO();

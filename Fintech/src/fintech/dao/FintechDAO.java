@@ -96,6 +96,29 @@ public class FintechDAO {
         }
     }
         
+    public long getIdUsuarioPorEmail(String email) {
+        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(
+                     "SELECT ID_USUARIO FROM T_USUARIO WHERE NM_EMAIL = ?")) {
+
+            preparedStatement.setString(1, email);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    long idUsuario = resultSet.getLong("ID_USUARIO");
+                    System.out.println("ID do usuário encontrado: " + idUsuario);
+                    return idUsuario;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Erro ao obter ID do usuário por e-mail: " + e.getMessage());
+        }
+
+        // Retorno padrão caso não encontre o usuário
+        return -1;
+    }
+    //Pegar o nome do Usuario para colocar na Tela
         public String getNomeDoUsuarioPorEmail(String email) {
             Connection connection = null;
             PreparedStatement preparedStatement = null;
@@ -144,6 +167,10 @@ public class FintechDAO {
                     }
                 }
             }
+            
+            
+            
+
         
     }
 

@@ -1,4 +1,4 @@
-package fintech.controller;
+package fintech.controller; 
 
 import fintech.dao.FintechDAO;
 
@@ -28,11 +28,15 @@ public class LoginServlet extends HttpServlet {
 		    fintechDAO.conectar();
 
 		    if (fintechDAO.credenciaisValidas(email, senha)) {
+		    	long idUsuario = fintechDAO.getIdUsuarioPorEmail(email);
 		    	 String nomeDoUsuario = fintechDAO.getNomeDoUsuarioPorEmail(email);
 
 		            // Armazene o nome do usuário em um atributo de sessão
+		    	 	request.getSession().setAttribute("idUsuario", idUsuario);
 		            request.getSession().setAttribute("nomeDoUsuario", nomeDoUsuario);
 		    	
+		         
+		         request.getSession().setAttribute("nomeDoUsuario", nomeDoUsuario);
 		        response.sendRedirect("index.jsp");
 		    } else {
 		        // Exibir uma mensagem de erro

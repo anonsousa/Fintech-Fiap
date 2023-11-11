@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-------------------------------------- CDN Bootstrap -------------------------------------------->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <!-------------------------------------- Font Awesome ------------------------------------------>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <!----------------------------------------- MEU Css ------------------------------------------------>
@@ -29,9 +29,10 @@
                 <a href="#" class="list-group-item list-group-item-action bg-transparent second-text active">
                     <img src="./imgs/dashboard/dashboard.png" alt="Dashboard" style="width: 25px;" class="img-fluid me-1">
                 </i>Dashboard</a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text text-success fw-bold">
-                    <img src="./imgs/dashboard/coin.png" alt="Recebimento" style="width: 25px;" class="img-fluid me-1">
-                </i>Adicionar Recebimento</a>
+      		    <a href="#" class="list-group-item list-group-item-action bg-transparent second-text text-success fw-bold" onclick="abrirModalAdicionarRecebimento()">
+           		 <img src="./imgs/dashboard/coin.png" alt="Recebimento" style="width: 25px;" class="img-fluid me-1">
+                  Adicionar Recebimento
+                </a>
                 <a href="#" class="list-group-item list-group-item-action bg-transparent second-text text-danger fw-bold">
                     <img src="./imgs/dashboard/coin_waste.png" alt="Gasto" style="width: 25px;" class="img-fluid me-1">
                 </i>Adicionar Gasto</a>
@@ -218,20 +219,79 @@
             </div>
         </div>
     </div>
-
-
+    
+    <!-- Certifique-se de que o jQuery seja carregado primeiro -->
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <!-- Script jS Bootstrap e Wrapper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+    // Função para abrir o modal de adicionar recebimento
+    function abrirModalAdicionarRecebimento() {
+        $('#modalAdicionarRecebimento').modal('show');
+    }
+
+    // Função para adicionar recebimento (adicione sua lógica aqui)
+    function adicionarRecebimento() {
+    	// Obtenha os valores do formulário
+        var nomeRecebimento = document.getElementById("nomeRecebimento").value;
+        var valorRecebimento = document.getElementById("valorRecebimento").value;
+        var dataRecebimento = document.getElementById("dataRecebimento").value;
+
+        // Faça uma requisição AJAX para a servlet
+        $.ajax({
+            type: "POST",
+            url: "adicionarRecebimento",
+            data: {
+                nomeRecebimento: nomeRecebimento,
+                valorRecebimento: valorRecebimento,
+                dataRecebimento: dataRecebimento
+            },
+            success: function () {
+                // Atualize a página ou faça outras ações após o sucesso
+                location.reload();
+            }
+        });
+    }
+
+    // Função para inicializar o Bootstrap Toggle
+    $(document).ready(function () {
         var el = document.getElementById("wrapper");
         var toggleButton = document.getElementById("menu-toggle");
 
         toggleButton.onclick = function () {
             el.classList.toggle("toggled");
         };
-    </script>
-    <!-- Fim Script jS Bootstrap e Wrapper -->
+    });
+</script>
+
+<!-- Modal Adicionar Recebimento -->
+<div class="modal fade" id="modalAdicionarRecebimento" tabindex="-1" aria-labelledby="modalAdicionarRecebimentoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalAdicionarRecebimentoLabel">Adicionar Recebimento</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Coloque aqui o conteúdo do seu formulário para adicionar recebimento -->
+                <label for="nomeRecebimento" class="form-label">Nome do Recebimento</label>
+                <input type="text" class="form-control" id="nomeRecebimento">
+
+                <label for="valorRecebimento" class="form-label">Valor do Recebimento</label>
+                <input type="text" class="form-control" id="valorRecebimento">
+
+                <label for="dataRecebimento" class="form-label">Data do Recebimento</label>
+                <input type="date" class="form-control" id="dataRecebimento">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-success" onclick="adicionarRecebimento()">Adicionar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 
 </html>
