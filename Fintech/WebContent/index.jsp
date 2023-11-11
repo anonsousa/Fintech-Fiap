@@ -66,8 +66,8 @@
                                 </ul>
                             </li>
                         </ul>
+                        
                             <button class="btn btn-outline-success" type="submit">Alan Turing</button>
-                        </form>
                     </div>
                 </div>
             </nav>

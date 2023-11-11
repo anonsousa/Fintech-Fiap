@@ -1,4 +1,4 @@
-package fintech.model;
+package fintech.controller;
 
 import fintech.dao.FintechDAO;
 
@@ -28,7 +28,7 @@ public class LoginServlet extends HttpServlet {
 		    fintechDAO.conectar();
 
 		    if (fintechDAO.credenciaisValidas(login, senha)) {
-		        // Redirecionar para a página principal
+
 		        response.sendRedirect("index.jsp");
 		    } else {
 		        // Exibir uma mensagem de erro

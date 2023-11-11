@@ -78,7 +78,7 @@
                     <button class="btn btn-lg btn-light w-100 fs-6"><img src="./imgs/home/google.png" style="width:20px" alt="Logo da Google"><small class="mx-2">Continuar com Google</small></button>
                 </div>
                 <div class="row">
-                    <small class="text-center">Não tem uma conta? <a href="#">Registre-se</a></small>
+                    <small class="text-center">Não tem uma conta? <a href="./register.jsp">Registre-se</a></small>
                 </div>
             </div>   
         </div>
