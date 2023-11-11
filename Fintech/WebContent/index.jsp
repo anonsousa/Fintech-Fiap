@@ -67,8 +67,20 @@
                             </li>
                         </ul>
                         
-                            <button class="btn btn-outline-success" type="submit">Alan Turing</button>
-                    </div>
+					     <button class="btn btn-outline-success" type="submit">
+					        <% 
+					            // Recuperar o nome do usuário da sessão
+					            String nomeDoUsuario = (String) request.getSession().getAttribute("nomeDoUsuario");
+					
+					            // Verificar se o nome do usuário está presente na sessão
+					            if (nomeDoUsuario != null && !nomeDoUsuario.isEmpty()) {
+					                out.print(nomeDoUsuario);
+					            } else {
+					                out.print("Usuario");
+					            }
+					        %>
+					    </button>
+					                    </div>
                 </div>
             </nav>
         </div>

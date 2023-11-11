@@ -62,17 +62,24 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle second-text fw-bold" href="#"
-                                id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-user me-2 "></i>Alan Turing
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Perfil</a></li>
-                                <li><a class="dropdown-item" href="#">Configurações</a></li>
-                                <li><a class="dropdown-item" href="./home.jsp">Sair</a></li>
-                            </ul>
-                        </li>
+						<li class="nav-item dropdown">
+						    <a class="nav-link dropdown-toggle second-text fw-bold" href="#"
+						        id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						        <i class="fas fa-user me-2"></i>
+						        <% 
+						            // Recuperar o nome do usuário da sessão
+						            String nomeDoUsuario = (String) request.getSession().getAttribute("nomeDoUsuario");
+						
+						            // Exibir o nome do usuário se presente na sessão, caso contrário, exibir "Usuário"
+						            out.print((nomeDoUsuario != null && !nomeDoUsuario.isEmpty()) ? nomeDoUsuario : "Usuário");
+						        %>
+						    </a>
+						    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+						        <li><a class="dropdown-item" href="#">Perfil</a></li>
+						        <li><a class="dropdown-item" href="#">Configurações</a></li>
+						        <li><a class="dropdown-item" href="./home.jsp">Sair</a></li>
+						    </ul>
+						</li>
                     </ul>
                 </div>
             </nav>

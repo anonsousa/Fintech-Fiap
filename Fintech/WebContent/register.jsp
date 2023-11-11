@@ -63,6 +63,15 @@
                             <button type="submit" class="btn btn-lg btn-success w-100 fs-6">Registrar</button>
                         </div>                      
                 </form>
+                    
+				    <% 
+				        String mensagemErro = (String) request.getAttribute("mensagemErro");
+				        if (mensagemErro != null) {
+				    %>
+				        <div class="alert alert-danger" role="alert">
+				            <%= mensagemErro %>
+				        </div>
+				    <% } %>
             </div>   
         </div>
     </div>
@@ -79,6 +88,12 @@
         // Validar se os campos estão preenchidos
         if (nome === "" || email === "" || senha === "" || confirmSenha === "") {
             alert("Por favor, preencha todos os campos.");
+            return false;
+        }
+        
+        var nomeRegex = /^[a-zA-Z]+$/;
+        if (!nomeRegex.test(nome)) {
+            alert("Por favor, insira um nome válido contendo apenas letras.");
             return false;
         }
 
@@ -101,7 +116,6 @@
             alert("A senha deve ter pelo menos 8 caracteres, contendo letras e números.");
             return false;
         }
-
         return true;
     }
 </script>

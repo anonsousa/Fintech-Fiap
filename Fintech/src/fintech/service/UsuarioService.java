@@ -9,7 +9,7 @@ public class UsuarioService {
         this.registerDAO = new RegisterDAO();
     }
 
-    public void cadastrarUsuario(String nome, String email, String senha) {
-        registerDAO.cadastrarUsuario(nome, email, senha);
+    public boolean cadastrarUsuario(String nome, String email, String senha) {
+        return registerDAO.cadastrarUsuario(nome, email, senha);
     }
 }

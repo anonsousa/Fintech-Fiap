@@ -3,6 +3,7 @@ package fintech.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
@@ -16,10 +17,14 @@ public class RegisterDAO {
 
 
 	
-    public void cadastrarUsuario(String nome, String email, String senha) {
+    public boolean cadastrarUsuario(String nome, String email, String senha) {
         fintechDAO.conectar();
         
-        
+        // Verifica se o email já está registrado
+        if (emailJaRegistrado(email)) {
+            System.out.println("Email já registrado. Escolha outro email.");
+            return false;
+        }
  
         try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         		PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO T_USUARIO (NM_USUARIO, NM_EMAIL, PW_USUARIO) VALUES (?, ?, ?)")) {
@@ -37,6 +42,27 @@ public class RegisterDAO {
             throw new RuntimeException("Erro ao cadastrar usuário: " + e.getMessage());
         } finally {
             fintechDAO.desconectar();
+        }
+		return false;
+    }
+    
+    private boolean emailJaRegistrado(String email) {
+        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+                PreparedStatement preparedStatement = connection
+                        .prepareStatement("SELECT COUNT(*) FROM T_USUARIO WHERE NM_EMAIL = ?")) {
+
+            preparedStatement.setString(1, email);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                resultSet.next();
+                int count = resultSet.getInt(1);
+
+                return count > 0; // Retorna true se o email já estiver registrado
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Erro ao verificar o email: " + e.getMessage());
         }
     }
 }

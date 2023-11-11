@@ -21,14 +21,18 @@ public class LoginServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 		    throws ServletException, IOException {
-		    String login = request.getParameter("login");
+		    String email = request.getParameter("login");
 		    String senha = request.getParameter("senha");
 		    
 		    FintechDAO fintechDAO = new FintechDAO();
 		    fintechDAO.conectar();
 
-		    if (fintechDAO.credenciaisValidas(login, senha)) {
+		    if (fintechDAO.credenciaisValidas(email, senha)) {
+		    	 String nomeDoUsuario = fintechDAO.getNomeDoUsuarioPorEmail(email);
 
+		            // Armazene o nome do usuário em um atributo de sessão
+		            request.getSession().setAttribute("nomeDoUsuario", nomeDoUsuario);
+		    	
 		        response.sendRedirect("index.jsp");
 		    } else {
 		        // Exibir uma mensagem de erro

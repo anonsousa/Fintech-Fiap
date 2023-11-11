@@ -22,9 +22,14 @@ public class RegisterServlet extends HttpServlet {
         String email = request.getParameter("email");
         String senha = request.getParameter("senha");
 
-        usuarioService.cadastrarUsuario(nome, email, senha);
+        boolean cadastroSucesso = usuarioService.cadastrarUsuario(nome, email, senha);
 
-        // Redireciona para a página de sucesso após cadastrar o usuário
-        response.sendRedirect("index.jsp");
+        if (cadastroSucesso) {
+            response.sendRedirect("index.jsp");
+        } else {
+            request.setAttribute("mensagemErro", "Email já registrado. Escolha outro email.");
+            // Remova o redirecionamento e encaminhe para a página atual
+            request.getRequestDispatcher("register.jsp").forward(request, response);
+        }
     }
 }

@@ -95,5 +95,56 @@ public class FintechDAO {
             }
         }
     }
+        
+        public String getNomeDoUsuarioPorEmail(String email) {
+            Connection connection = null;
+            PreparedStatement preparedStatement = null;
+            ResultSet resultSet = null;
+
+            try {
+                // Preparar a consulta SQL para buscar o nome do usuário com base no e-mail
+                String sql = "SELECT NM_USUARIO FROM T_USUARIO WHERE NM_EMAIL = ?";
+                connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, email);
+
+                resultSet = preparedStatement.executeQuery();
+
+                // Verificar se há resultados e obter o nome do usuário
+                if (resultSet.next()) {
+                    return resultSet.getString("NM_USUARIO");
+                } else {
+                    // Retornar null ou uma string indicando que o e-mail não está associado a nenhum usuário
+                    return null;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Erro ao obter o nome do usuário por e-mail: " + e.getMessage());
+            } finally {
+                // Fechar recursos (ResultSet, PreparedStatement e Connection)
+                if (resultSet != null) {
+                    try {
+                        resultSet.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (preparedStatement != null) {
+                    try {
+                        preparedStatement.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (connection != null) {
+                    try {
+                        connection.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        
+    }
 
 	}
