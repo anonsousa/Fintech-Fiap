@@ -29,11 +29,7 @@
                 <a href="#" class="list-group-item list-group-item-action bg-transparent second-text active">
                     <img src="./imgs/dashboard/dashboard.png" alt="Dashboard" style="width: 25px;" class="img-fluid me-1">
                 </i>Dashboard</a>
-      		    <a href="./recebimento.jsp" class="list-group-item list-group-item-action bg-transparent second-text text-success fw-bold" onclick="abrirModalAdicionarRecebimento()">
-           		 <img src="./imgs/dashboard/coin.png" alt="Recebimento" style="width: 25px;" class="img-fluid me-1">
-                  Adicionar Recebimento
-                </a>
-                <a href="./gasto.jsp" class="list-group-item list-group-item-action bg-transparent second-text text-danger fw-bold" onclick="abrirModalAdicionarGasto()">
+                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text text-danger fw-bold" onclick="abrirModalAdicionarGasto()">
    					<img src="./imgs/dashboard/coin_waste.png" alt="Gasto" style="width: 25px;" class="img-fluid me-1">
    					 Adicionar Gasto
 				</a>
@@ -90,16 +86,6 @@
             <!------------------------------ Section ---------------------------->
             <div class="container-fluid px-4">
                 <div class="row g-3 my-2">
-                    <div class="col-md-6">
-                        <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
-                            <div>
-                                <h3 class="fs-2">R$ 10.000</h3>
-                                <p class="fs-5">Recebimento</p>
-                            </div>
-                            <img src="./imgs/dashboard/coin.png" alt="Recebimento" style="width: 60px;" class="img-fluid">
-                        </div>
-                    </div>
-
                     <div class="col-md-6">
                         <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
                             <div>
@@ -222,11 +208,69 @@
     </div>
     
 
+<!-- Modal Adicionar Gasto -->
+    <div class="modal fade" id="modalAdicionarGasto" tabindex="-1" aria-labelledby="modalAdicionarGastoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalAdicionarGastoLabel">Adicionar Gasto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Conteúdo do formulário para adicionar gasto -->
+                    <label for="nomeGasto" class="form-label">Nome do Gasto</label>
+                    <input type="text" class="form-control" id="nomeGasto">
+
+                    <label for="valorGasto" class="form-label">Valor do Gasto</label>
+                    <input type="text" class="form-control" id="valorGasto">
+
+                    <label for="dataGasto" class="form-label">Data do Gasto</label>
+                    <input type="date" class="form-control" id="dataGasto">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-danger" onclick="adicionarGasto()">Adicionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <!-- jQuery -->
 	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
     <!-- Script jS Bootstrap e Wrapper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+    // Função para abrir o modal de adicionar gasto  
+    function abrirModalAdicionarGasto() {
+        $('#modalAdicionarGasto').modal('show');
+    }
+
+    // Função para adicionar gasto (adicione sua lógica aqui)
+    function adicionarGasto() {
+        // Obtenha os valores do formulário
+        var nomeGasto = document.getElementById("nomeGasto").value;
+        var valorGasto = document.getElementById("valorGasto").value.replace(/[,\.]/g, '');
+        
+        // Faça uma requisição AJAX para a servlet (adapte conforme necessário)
+        $.ajax({
+            type: "POST",
+            url: "adicionarGasto",
+            data: {
+                nomeGasto: nomeGasto,
+                valorGasto: valorGasto,
+                dataGasto: document.getElementById("dataGasto").value
+            },
+            success: function () {
+                // Feche o modal após o sucesso
+                $('#modalAdicionarGasto').modal('hide');
+
+                // Atualize a página ou faça outras ações após o sucesso
+                location.reload();
+            }
+        });
+    }
 
     // Função para inicializar o Bootstrap Toggle
     $(document).ready(function () {
@@ -237,11 +281,9 @@
             el.classList.toggle("toggled");
         };
     });
-	</script>
+</script>
 
 
 
 
 </body>
-
-</html>
