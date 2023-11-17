@@ -233,26 +233,30 @@
 
     // Função para adicionar recebimento (adicione sua lógica aqui)
     function adicionarRecebimento() {
-    	// Obtenha os valores do formulário
-        var nomeRecebimento = document.getElementById("nomeRecebimento").value;
-        var valorRecebimento = document.getElementById("valorRecebimento").value;
-        var dataRecebimento = document.getElementById("dataRecebimento").value;
+    // Obtenha os valores do formulário
+    var nomeRecebimento = document.getElementById("nomeRecebimento").value;
 
-        // Faça uma requisição AJAX para a servlet
-        $.ajax({
-            type: "POST",
-            url: "adicionarRecebimento",
-            data: {
-                nomeRecebimento: nomeRecebimento,
-                valorRecebimento: valorRecebimento,
-                dataRecebimento: dataRecebimento
-            },
-            success: function () {
-                // Atualize a página ou faça outras ações após o sucesso
-                location.reload();
-            }
-        });
-    }
+    // Remova todas as vírgulas e pontos no valorRecebimento
+    var valorRecebimento = document.getElementById("valorRecebimento").value.replace(/[,\.]/g, '');
+
+    // Faça uma requisição AJAX para a servlet
+    $.ajax({
+        type: "POST",
+        url: "adicionarRecebimento",
+        data: {
+            nomeRecebimento: nomeRecebimento,
+            valorRecebimento: valorRecebimento,
+            dataRecebimento: document.getElementById("dataRecebimento").value
+        },
+        success: function () {
+            // Feche o modal após o sucesso
+            $('#modalAdicionarRecebimento').modal('hide');
+
+            // Atualize a página ou faça outras ações após o sucesso
+            location.reload();
+        }
+    });
+}
 
     // Função para inicializar o Bootstrap Toggle
     $(document).ready(function () {

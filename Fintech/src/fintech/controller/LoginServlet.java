@@ -4,6 +4,8 @@ import fintech.dao.FintechDAO;
 
 
 import java.io.IOException;
+import java.util.UUID;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,7 +30,7 @@ public class LoginServlet extends HttpServlet {
 		    fintechDAO.conectar();
 
 		    if (fintechDAO.credenciaisValidas(email, senha)) {
-		    	long idUsuario = fintechDAO.getIdUsuarioPorEmail(email);
+		    	UUID idUsuario = fintechDAO.getIdUsuarioPorEmail(email);
 		    	 String nomeDoUsuario = fintechDAO.getNomeDoUsuarioPorEmail(email);
 
 		            // Armazene o nome do usuário em um atributo de sessão

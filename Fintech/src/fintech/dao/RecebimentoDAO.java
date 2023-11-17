@@ -1,9 +1,11 @@
 package fintech.dao;
 
+import java.nio.ByteBuffer;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class RecebimentoDAO {
     FintechDAO fintechDAO = new FintechDAO();
@@ -11,17 +13,17 @@ public class RecebimentoDAO {
     private static final String USERNAME = "rm551647";
     private static final String PASSWORD = "260698";
 
-    public boolean cadastrarRecebimento(String nomeRecebimento, String dataRecebimento, double valorRecebimento, long idUsuario) {
+    public boolean cadastrarRecebimento(String nomeRecebimento, String dataRecebimento, double valorRecebimento, UUID idUsuario) {
         fintechDAO.conectar();
 
         try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(
-                     "INSERT INTO T_RECEBIMENTO (NM_RECEBIMENTO, DT_RECEBIMENTO, VL_RECEBIMENTO, T_USUARIO_ID_USUARIO) VALUES (?, ?, ?, ?)")) {
+                     "INSERT INTO T_RECEBIMENTO (ID_RECEBIMENTO, ID_USUARIO, NM_RECEBIMENTO, DT_RECEBIMENTO, VL_RECEBIMENTO) VALUES (SYS_GUID(), ?, ?, TO_DATE(?, 'YYYY-MM-DD'), ?)")) {
 
-            preparedStatement.setString(1, nomeRecebimento);
-            preparedStatement.setDate(2, java.sql.Date.valueOf(dataRecebimento));
-            preparedStatement.setDouble(3, valorRecebimento);
-            preparedStatement.setLong(4, idUsuario);
+        	preparedStatement.setBytes(1, toBytes(idUsuario)); 
+            preparedStatement.setString(2, nomeRecebimento);
+            preparedStatement.setString(3, dataRecebimento);
+            preparedStatement.setDouble(4, valorRecebimento);
 
             preparedStatement.executeUpdate();
             System.out.println("Recebimento cadastrado com sucesso.");
@@ -33,5 +35,12 @@ public class RecebimentoDAO {
         } finally {
             fintechDAO.desconectar();
         }
+    }
+    
+    private byte[] toBytes(UUID uuid) {
+        ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
+        bb.putLong(uuid.getMostSignificantBits());
+        bb.putLong(uuid.getLeastSignificantBits());
+        return bb.array();
     }
 }

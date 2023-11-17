@@ -1,10 +1,13 @@
 package fintech.dao;
 
+import java.nio.ByteBuffer;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.RowId;
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class FintechDAO {
     private static final String URL = "jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL"; 
@@ -95,8 +98,11 @@ public class FintechDAO {
             }
         }
     }
-        
-    public long getIdUsuarioPorEmail(String email) {
+    
+    
+    
+    // Pega id do usuario  
+    public UUID getIdUsuarioPorEmail(String email) {
         try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(
                      "SELECT ID_USUARIO FROM T_USUARIO WHERE NM_EMAIL = ?")) {
@@ -105,7 +111,17 @@ public class FintechDAO {
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    long idUsuario = resultSet.getLong("ID_USUARIO");
+                    // Use getBytes para recuperar os bytes da coluna
+                    byte[] idBytes = resultSet.getBytes("ID_USUARIO");
+
+                    // Converte os bytes para um long
+                    ByteBuffer byteBuffer = ByteBuffer.wrap(idBytes);
+                    long mostSignificant = byteBuffer.getLong();
+                    long leastSignificant = byteBuffer.getLong();
+
+                    // Cria o UUID
+                    UUID idUsuario = new UUID(mostSignificant, leastSignificant);
+
                     System.out.println("ID do usuário encontrado: " + idUsuario);
                     return idUsuario;
                 }
@@ -116,8 +132,12 @@ public class FintechDAO {
         }
 
         // Retorno padrão caso não encontre o usuário
-        return -1;
+        return null;
     }
+    
+    
+    
+    
     //Pegar o nome do Usuario para colocar na Tela
         public String getNomeDoUsuarioPorEmail(String email) {
             Connection connection = null;
