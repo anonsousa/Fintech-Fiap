@@ -88,13 +88,12 @@
                 <div class="row g-3 my-2">
                     <div class="col-md-6">
                         <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
-                            <div>
-                                <h3 class="fs-2">R$ 10.000</h3>
-                                <p class="fs-5">Recebimento</p>
-                            </div>
-                            <img src="./imgs/dashboard/coin.png" alt="Recebimento" style="width: 60px;" class="img-fluid">
-                        </div>
-                    </div>
+   							 <div>
+      							  <h3 id="valorTotalRecebimentos" class="fs-2">R$ 0.00</h3>
+      							  <p class="fs-5">Recebimento</p>
+  							</div>
+   							 <img src="./imgs/dashboard/coin.png" alt="Recebimento" style="width: 60px;" class="img-fluid">
+					</div>
                 </div>
 
             <!------------------------------ Fim Section ---------------------------->
@@ -223,7 +222,7 @@
                 <input type="text" class="form-control" id="nomeRecebimento">
 
                 <label for="valorRecebimento" class="form-label">Valor do Recebimento</label>
-                <input type="text" class="form-control" id="valorRecebimento">
+                <input  type="number" step="0.01" name="quantity" min="0.01" class="form-control" id="valorRecebimento">
 
                 <label for="dataRecebimento" class="form-label">Data do Recebimento</label>
                 <input type="date" class="form-control" id="dataRecebimento">
@@ -242,19 +241,26 @@
 
     <!-- Script jS Bootstrap e Wrapper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
- <script>
-    // Mova a declaração da função para fora do $(document).ready
+    
+    
+    
+<script>
     function abrirModalAdicionarRecebimento() {
         $('#modalAdicionarRecebimento').modal('show');
     }
 
-    // Mova a declaração da função para fora do $(document).ready
     function adicionarRecebimento() {
         // Obtenha os valores do formulário
         var nomeRecebimento = document.getElementById("nomeRecebimento").value;
+        var valorRecebimento = document.getElementById("valorRecebimento").value;
+        var dataRecebimento = document.getElementById("dataRecebimento").value;
 
-        // Remova todas as vírgulas e pontos no valorRecebimento
-        var valorRecebimento = document.getElementById("valorRecebimento").value.replace(/[,\.]/g, '');
+        // Valide se todos os campos estão preenchidos
+        if (nomeRecebimento.trim() === '' || valorRecebimento.trim() === '' || dataRecebimento.trim() === '') {
+            // Se algum campo estiver vazio, exiba uma mensagem ou tome outra ação adequada
+            alert("Por favor, preencha todos os campos antes de adicionar o recebimento.");
+            return;
+        }
 
         // Faça uma requisição AJAX para a servlet
         $.ajax({
@@ -263,7 +269,7 @@
             data: {
                 nomeRecebimento: nomeRecebimento,
                 valorRecebimento: valorRecebimento,
-                dataRecebimento: document.getElementById("dataRecebimento").value
+                dataRecebimento: dataRecebimento
             },
             success: function () {
                 // Feche o modal após o sucesso
@@ -283,20 +289,34 @@
         toggleButton.onclick = function () {
             el.classList.toggle("toggled");
         };
+
+        // Atualize o valor total ao carregar a página
+        atualizarValorTotal();
+
+        // Função para atualizar dinamicamente o valor total
+        function atualizarValorTotal() {
+            // Faça uma requisição AJAX para obter o valor total do backend
+            $.ajax({
+                type: "GET",
+                url: "obterValorTotalRecebimentos",
+                success: function (valorTotal) {
+                    // Verifique se valorTotal é um número
+                    if (!isNaN(valorTotal)) {
+                        // Converta o valor para um número, se necessário
+                        valorTotal = Number(valorTotal);
+
+                        // Atualize o valor exibido na página
+                        $('#valorTotalRecebimentos').text('R$ ' + valorTotal.toFixed(2));
+                    } else {
+                        console.error("O valor retornado não é um número:", valorTotal);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Erro na solicitação AJAX:", status, error);
+                }
+            });
+        }
     });
-</script>
-
-
-    // Função para inicializar o Bootstrap Toggle
-    $(document).ready(function () {
-        var el = document.getElementById("wrapper");
-        var toggleButton = document.getElementById("menu-toggle");
-
-        toggleButton.onclick = function () {
-            el.classList.toggle("toggled");
-        };
-    });
-   
 </script>
 
 

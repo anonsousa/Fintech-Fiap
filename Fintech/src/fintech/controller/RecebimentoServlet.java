@@ -1,6 +1,7 @@
 package fintech.controller;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.UUID;
 
 import javax.servlet.ServletException;
@@ -17,7 +18,7 @@ public class RecebimentoServlet extends HttpServlet {
             throws ServletException, IOException {
         // Obtenha os parâmetros do formulário
         String nomeRecebimento = request.getParameter("nomeRecebimento");
-        double valorRecebimento = Double.parseDouble(request.getParameter("valorRecebimento"));
+        BigDecimal valorRecebimento = new BigDecimal(request.getParameter("valorRecebimento"));
         String dataRecebimento = request.getParameter("dataRecebimento");
 
         UUID idUsuario = (UUID) request.getSession().getAttribute("idUsuario");
@@ -26,12 +27,10 @@ public class RecebimentoServlet extends HttpServlet {
             RecebimentoDAO recebimentoDAO = new RecebimentoDAO();
             recebimentoDAO.cadastrarRecebimento(nomeRecebimento, dataRecebimento, valorRecebimento, idUsuario);
 
-            // Redirecione para a página principal ou exiba uma mensagem de sucesso
             response.sendRedirect("dashboard.jsp");
         } else {
-            // Lidere com o caso em que o ID do usuário não está disponível na sessão.
-            // Pode ser necessário redirecionar para a página de login ou tomar outra ação apropriada.
-            response.sendRedirect("pagina_de_login.jsp");
+
+            response.sendRedirect("home.jsp");
         }
     }
 }

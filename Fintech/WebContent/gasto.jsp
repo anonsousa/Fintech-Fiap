@@ -26,7 +26,7 @@
                 <h2><span class="primary-text">E.</span> conomico</h2>
             </div>
             <div class="list-group list-group-flush my-3">
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text active">
+                <a href="./dashboard.jsp" class="list-group-item list-group-item-action bg-transparent second-text active">
                     <img src="./imgs/dashboard/dashboard.png" alt="Dashboard" style="width: 25px;" class="img-fluid me-1">
                 </i>Dashboard</a>
                 <a href="#" class="list-group-item list-group-item-action bg-transparent second-text text-danger fw-bold" onclick="abrirModalAdicionarGasto()">

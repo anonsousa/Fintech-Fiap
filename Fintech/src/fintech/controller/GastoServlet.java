@@ -23,8 +23,8 @@ public class GastoServlet extends HttpServlet {
         UUID idUsuario = (UUID) request.getSession().getAttribute("idUsuario");
 
         if (idUsuario != null) {
-            RecebimentoDAO recebimentoDAO = new RecebimentoDAO();
-            recebimentoDAO.cadastrarRecebimento(nomeRecebimento, dataRecebimento, valorRecebimento, idUsuario);
+            //RecebimentoDAO recebimentoDAO = new RecebimentoDAO();
+           // recebimentoDAO.cadastrarRecebimento(nomeRecebimento, dataRecebimento, valorRecebimento, idUsuario);
 
             // Redirecione para a página principal ou exiba uma mensagem de sucesso
             response.sendRedirect("dashboard.jsp");
