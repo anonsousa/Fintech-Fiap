@@ -38,9 +38,11 @@ public class RecebimentoServlet extends HttpServlet {
             // Obter o valor total após o cadastro do recebimento
             BigDecimal valorTotalRecebimentos = recebimentoDAO.obterValorTotalRecebimentos(idUsuario);
             
-            System.out.println("Dados: " + valorTotalRecebimentos);
-
-            request.getSession().setAttribute("valorTotalRecebimentos", valorTotalRecebimentos);
+            //System.out.println("Dados: " + valorTotalRecebimentos);
+            
+            
+            request.getSession().setAttribute("valorTotalRecebimentos_" + idUsuario, valorTotalRecebimentos);
+            //request.getSession().setAttribute("valorTotalRecebimentos", valorTotalRecebimentos);
             
             
             

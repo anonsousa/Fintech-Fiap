@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+     <%@ page import="java.math.BigDecimal" %>
+     <%@ page import="java.util.UUID" %>
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -33,7 +35,7 @@
            		 <img src="./imgs/dashboard/coin.png" alt="Recebimento" style="width: 25px;" class="img-fluid me-1">
                   Adicionar Recebimento
                 </a>
-                <a href="./gasto.jsp" class="list-group-item list-group-item-action bg-transparent second-text text-danger fw-bold" onclick="abrirModalAdicionarGasto()">
+                <a href="./gasto.jsp" class="list-group-item list-group-item-action bg-transparent second-text text-danger fw-bold">
    					<img src="./imgs/dashboard/coin_waste.png" alt="Gasto" style="width: 25px;" class="img-fluid me-1">
    					 Adicionar Gasto
 				</a>
@@ -93,7 +95,18 @@
                     <div class="col-md-6">
                         <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
                             <div>
-                                <h3 class="fs-2">R$ 10.000</h3>
+									<%
+										UUID idUsuario = (UUID) request.getSession().getAttribute("idUsuario");
+									    // Recuperar o valorTotalRecebimentos da sessão
+									    BigDecimal valorTotalRecebimentos = (BigDecimal) request.getSession().getAttribute("valorTotalRecebimentos_" + idUsuario);
+									
+									    // Exibir o valorTotalRecebimentos se presente na sessão, caso contrário, exibir "0.00"
+									    String valorTotalRecebimentosStr = (valorTotalRecebimentos != null) ? valorTotalRecebimentos.toString() : "0.00";
+									%>
+									
+									<h3 id="valorTotalRecebimentos" class="fs-2">				                       
+									    R$ <%= valorTotalRecebimentosStr %>
+									</h3>                             
                                 <p class="fs-5">Recebimento</p>
                             </div>
                             <img src="./imgs/dashboard/coin.png" alt="Recebimento" style="width: 60px;" class="img-fluid">
@@ -103,7 +116,18 @@
                     <div class="col-md-6">
                         <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
                             <div>
-                                <h3 class="fs-2">R$ 6.000</h3>
+								<%
+								
+								    // Recuperar o valorTotalGastos associado ao ID do usuário da sessão
+								    BigDecimal valorTotalGastos = (BigDecimal) request.getSession().getAttribute("valorTotalGastos_" + idUsuario);
+								
+								    // Exibir o valorTotalGastos se presente na sessão, caso contrário, exibir "0.00"
+								    String valorTotalGastosStr = (valorTotalGastos != null) ? valorTotalGastos.toString() : "0.00";
+								%>
+								
+								<h3 id="valorTotalGastos" class="fs-2">                       
+								    R$ <%= valorTotalGastosStr %>
+								</h3>
                                 <p class="fs-5">Gasto</p>
                             </div>
                             <img src="./imgs/dashboard/coin_waste.png" alt="Gasto" style="width: 60px;" class="img-fluid">

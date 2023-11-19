@@ -31,16 +31,13 @@
                 <h2><span class="primary-text">E.</span> conomico</h2>
             </div>
             <div class="list-group list-group-flush my-3">
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text active">
+                <a href="./dashboard.jsp" class="list-group-item list-group-item-action bg-transparent second-text active">
                     <img src="./imgs/dashboard/dashboard.png" alt="Dashboard" style="width: 25px;" class="img-fluid me-1">
                 </i>Dashboard</a>
       		    <a href="#" class="list-group-item list-group-item-action bg-transparent second-text text-success fw-bold" onclick="abrirModalAdicionarRecebimento()">
            		 <img src="./imgs/dashboard/coin.png" alt="Recebimento" style="width: 25px;" class="img-fluid me-1">
                   Adicionar Recebimento
                 </a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <img src="./imgs/dashboard/filter.png" alt="Filtro" style="width: 25px;" class="img-fluid me-1">
-                    </i>Filtrar Mês</a>
                 <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <img src="./imgs/dashboard/suporte.png" alt="Suporte Tecnico" style="width: 25px;" class="img-fluid me-2">Suporte</a>
                 <a href="./index.jsp" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i
@@ -95,14 +92,17 @@
 				            <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
 				                <div>
 									<%
-									    // Recuperar o valorTotalRecebimentos da sessão
-									    BigDecimal valorTotalRecebimentos = (BigDecimal) request.getSession().getAttribute("valorTotalRecebimentos");
+									    // Recuperar o ID do usuário da sessão
+									    UUID idUsuario = (UUID) request.getSession().getAttribute("idUsuario");
+									
+									    // Recuperar o valorTotalRecebimentos associado ao ID do usuário da sessão
+									    BigDecimal valorTotalRecebimentos = (BigDecimal) request.getSession().getAttribute("valorTotalRecebimentos_" + idUsuario);
 									
 									    // Exibir o valorTotalRecebimentos se presente na sessão, caso contrário, exibir "0.00"
 									    String valorTotalRecebimentosStr = (valorTotalRecebimentos != null) ? valorTotalRecebimentos.toString() : "0.00";
 									%>
 									
-									<h3 id="valorTotalRecebimentos" class="fs-2">				                       
+									<h3 id="valorTotalRecebimentos" class="fs-2">                       
 									    R$ <%= valorTotalRecebimentosStr %>
 									</h3>
 				                    <p class="fs-5">Recebimento</p>
@@ -115,48 +115,46 @@
             <!------------------------------ Fim Section ---------------------------->
 
             <!------------------------------ Tabela --------------------------------->
-				<div class="row my-5">
-				    <h3 class="text-success fs-4 mb-3">Histórico</h3>
-				    <div class="col">
-				        <table class="table bg-white rounded shadow-sm table-hover">
-				            <thead>
-				                <tr>
-				                    <th scope="col" width="50">#</th>
-				                    <th scope="col">Nome</th>
-				                    <th scope="col">Tipo</th>
-				                    <th scope="col">Valor</th>
-				                    <th scope="col">Data</th>
-				                </tr>
-				            </thead>
-				            <tbody>
-				                <%
-				                    // Criar uma instância de RecebimentoDAO
-				                    RecebimentoDAO recebimentoDAO = new RecebimentoDAO();
-				
-				                    // Obter o idUsuario da sessão
-				                    UUID idUsuario = (UUID) request.getSession().getAttribute("idUsuario");
-				
-				                    // Obter a lista de recebimentos usando a instância de RecebimentoDAO
-				                    List<Recebimento> recebimentos = recebimentoDAO.obterRecebimentos(idUsuario);
-				
-				                    // Iterar sobre a lista de recebimentos
-				                    for (int i = 0; i < recebimentos.size(); i++) {
-				                        Recebimento recebimento = recebimentos.get(i);
-				                %>
-				                        <tr>
-				                            <th scope="row"><%= i + 1 %></th>
-				                            <td><%= recebimento.getNomeRecebimento() %></td>
-				                            <td><img src="./imgs/dashboard/coin.png" alt="" style="width: 20px;"></td>
-				                            <td>R$<%= recebimento.getValorRecebimento() %></td>
-				                            <td><%= recebimento.getDataRecebimento() %></td>
-				                        </tr>
-				                <%
-				                    }
-				                %>
-				            </tbody>
-				        </table>
-				    </div>
-				</div>
+			<div class="row my-5">
+			    <h3 class="text-success fs-4 mb-3">Histórico</h3>
+			    <div class="col">
+			        <table class="table bg-white rounded shadow-sm table-hover">
+			            <thead>
+			                <tr>
+			                    <th scope="col" width="50">#</th>
+			                    <th scope="col">Nome</th>
+			                    <th scope="col">Tipo</th>
+			                    <th scope="col">Valor</th>
+			                    <th scope="col">Data</th>
+			                </tr>
+			            </thead>
+			            <tbody>
+			                <%
+			
+			                    // Criar uma instância de RecebimentoDAO
+			                    RecebimentoDAO recebimentoDAO = new RecebimentoDAO();
+			
+			                    // Obter a lista de recebimentos usando a instância de RecebimentoDAO
+			                    List<Recebimento> recebimentos = recebimentoDAO.obterRecebimentos(idUsuario);
+			
+			                    // Iterar sobre a lista de recebimentos
+			                    for (int i = 0; i < recebimentos.size(); i++) {
+			                        Recebimento recebimento = recebimentos.get(i);
+			                %>
+			                        <tr>
+			                            <th scope="row"><%= i + 1 %></th>
+			                            <td><%= recebimento.getNomeRecebimento() %></td>
+			                            <td><img src="./imgs/dashboard/coin.png" alt="" style="width: 20px;"></td>
+			                            <td>R$<%= recebimento.getValorRecebimento() %></td>
+			                            <td><%= recebimento.getDataRecebimento() %></td>
+			                        </tr>
+			                <%
+			                    }
+			                %>
+			            </tbody>
+			        </table>
+			    </div>
+			</div>
             <!------------------------------ Fim Tabela --------------------------------->
             </div>
         </div>

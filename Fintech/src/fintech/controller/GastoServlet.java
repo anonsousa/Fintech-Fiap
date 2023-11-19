@@ -1,37 +1,62 @@
 package fintech.controller;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import fintech.dao.RecebimentoDAO;
+import fintech.dao.GastoDAO;
+import fintech.model.Gasto;
 
-@WebServlet("/test")
+@WebServlet("/adicionarGasto")
 public class GastoServlet extends HttpServlet {
+	
+	
+	
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Obtenha os parâmetros do formulário
-        String nomeRecebimento = request.getParameter("nomeRecebimento");
-        double valorRecebimento = Double.parseDouble(request.getParameter("valorRecebimento"));
-        String dataRecebimento = request.getParameter("dataRecebimento");
-
+        String nomeGasto = request.getParameter("nomeGasto");
+        BigDecimal valorGasto = new BigDecimal(request.getParameter("valorGasto"));
+        String dataGasto = request.getParameter("dataGasto");
+        
+        
         UUID idUsuario = (UUID) request.getSession().getAttribute("idUsuario");
+        
 
         if (idUsuario != null) {
-            //RecebimentoDAO recebimentoDAO = new RecebimentoDAO();
-           // recebimentoDAO.cadastrarRecebimento(nomeRecebimento, dataRecebimento, valorRecebimento, idUsuario);
+        	GastoDAO gastoDAO = new GastoDAO();
+        	gastoDAO.cadastrarGasto(nomeGasto, dataGasto, valorGasto, idUsuario);
 
-            // Redirecione para a página principal ou exiba uma mensagem de sucesso
-            response.sendRedirect("dashboard.jsp");
+            // Obter o valor total após o cadastro do recebimento
+            BigDecimal valorTotalGastos = gastoDAO.obterValorTotalGastos(idUsuario);
+            
+            System.out.println("Dados: " + valorTotalGastos);
+
+            
+            request.getSession().setAttribute("valorTotalGastos_" + idUsuario, valorTotalGastos);
+            //request.getSession().setAttribute("valorTotalGastos", valorTotalGastos);
+            
+            
+            
+         // Obter a lista de recebimentos
+            List<Gasto> gastos = gastoDAO.obterGastos(idUsuario);
+            // Adicionar a lista de gastos ao JSP
+            request.setAttribute("gasto", gastos);
+
+          
+            // Redirecionar para o JSP
+            RequestDispatcher dispatcher = request.getRequestDispatcher("gasto.jsp");
+            dispatcher.forward(request, response);
         } else {
-            // Lidere com o caso em que o ID do usuário não está disponível na sessão.
-            // Pode ser necessário redirecionar para a página de login ou tomar outra ação apropriada.
-            response.sendRedirect("pagina_de_login.jsp");
+            response.sendRedirect("home.jsp");
         }
     }
 }

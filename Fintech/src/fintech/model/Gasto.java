@@ -3,43 +3,42 @@ package fintech.model;
 import java.math.BigDecimal;
 
 public class Gasto {
-    private String nomeGasto;
-    private String dataGasto;
-    private BigDecimal valorGasto;
+    private String NomeGasto;
+    private String DataGasto;
+    private BigDecimal ValorGasto;
 
     // Construtores, getters e setters
 
     public Gasto() {
     }
 
-    public Gasto(String nomeGasto, String dataGasto, BigDecimal valorGasto) {
-        this.nomeGasto = nomeGasto;
-        this.dataGasto = dataGasto;
-        this.valorGasto = valorGasto;
+    public Gasto(String NomeGasto, String DataGasto, BigDecimal ValorGasto) {
+        this.NomeGasto = NomeGasto;
+        this.DataGasto = DataGasto;
+        this.ValorGasto = ValorGasto;
     }
 
     public String getNomeGasto() {
-        return nomeGasto;
+        return NomeGasto;
     }
 
-    public void setNomeGasto(String nomeGasto) {
-        this.nomeGasto = nomeGasto;
+    public void setNomeGasto(String NomeGasto) {
+        this.NomeGasto = NomeGasto;
     }
 
     public String getDataGasto() {
-        return dataGasto;
+        return DataGasto;
     }
 
-    public void setDataRecebimento(String dataRecebimento) {
-        this.dataGasto = dataRecebimento;
+    public void setDataGasto(String DataGasto) {
+        this.DataGasto = DataGasto;
     }
 
     public BigDecimal getValorGasto() {
-        return valorGasto;
+        return ValorGasto;
     }
 
-    public void setValorGasto(BigDecimal valorGasto) {
-        this.valorGasto = valorGasto;
+    public void setValorGasto(BigDecimal ValorGasto) {
+        this.ValorGasto = ValorGasto;
     }
-
 }
