@@ -1,38 +1,45 @@
 package fintech.model;
 
-public class Recebimento {
-    private String nome;
-    private double valor;
-    private String data;
+import java.math.BigDecimal;
 
-    public Recebimento(String nome, double valor, String data) {
-        this.nome = nome;
-        this.valor = valor;
-        this.data = data;
+public class Recebimento {
+    private String nomeRecebimento;
+    private String dataRecebimento;
+    private BigDecimal valorRecebimento;
+
+    // Construtores, getters e setters
+
+    public Recebimento() {
     }
 
-	public String getNome() {
-		return nome;
-	}
+    public Recebimento(String nomeRecebimento, String dataRecebimento, BigDecimal valorRecebimento) {
+        this.nomeRecebimento = nomeRecebimento;
+        this.dataRecebimento = dataRecebimento;
+        this.valorRecebimento = valorRecebimento;
+    }
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    public String getNomeRecebimento() {
+        return nomeRecebimento;
+    }
 
-	public double getValor() {
-		return valor;
-	}
+    public void setNomeRecebimento(String nomeRecebimento) {
+        this.nomeRecebimento = nomeRecebimento;
+    }
 
-	public void setValor(double valor) {
-		this.valor = valor;
-	}
+    public String getDataRecebimento() {
+        return dataRecebimento;
+    }
 
-	public String getData() {
-		return data;
-	}
+    public void setDataRecebimento(String dataRecebimento) {
+        this.dataRecebimento = dataRecebimento;
+    }
 
-	public void setData(String data) {
-		this.data = data;
-	}
+    public BigDecimal getValorRecebimento() {
+        return valorRecebimento;
+    }
+
+    public void setValorRecebimento(BigDecimal valorRecebimento) {
+        this.valorRecebimento = valorRecebimento;
+    }
 
 }

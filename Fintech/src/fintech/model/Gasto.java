@@ -1,37 +1,45 @@
 package fintech.model;
 
+import java.math.BigDecimal;
+
 public class Gasto {
-    private String nome;
-    private double valor;
-    private String data;
+    private String nomeGasto;
+    private String dataGasto;
+    private BigDecimal valorGasto;
 
-    public Gasto(String nome, double valor, String data) {
-        this.nome = nome;
-        this.valor = valor;
-        this.data = data;
+    // Construtores, getters e setters
+
+    public Gasto() {
     }
 
-    public String getNome() {
-        return nome;
+    public Gasto(String nomeGasto, String dataGasto, BigDecimal valorGasto) {
+        this.nomeGasto = nomeGasto;
+        this.dataGasto = dataGasto;
+        this.valorGasto = valorGasto;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public String getNomeGasto() {
+        return nomeGasto;
     }
 
-    public double getValor() {
-        return valor;
+    public void setNomeGasto(String nomeGasto) {
+        this.nomeGasto = nomeGasto;
     }
 
-    public void setValor(double valor) {
-        this.valor = valor;
+    public String getDataGasto() {
+        return dataGasto;
     }
 
-    public String getData() {
-        return data;
+    public void setDataRecebimento(String dataRecebimento) {
+        this.dataGasto = dataRecebimento;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public BigDecimal getValorGasto() {
+        return valorGasto;
     }
+
+    public void setValorGasto(BigDecimal valorGasto) {
+        this.valorGasto = valorGasto;
+    }
+
 }

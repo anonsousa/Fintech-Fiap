@@ -1,5 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page import="java.math.BigDecimal" language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ page import="java.util.UUID" %>
+    <%@ page import="java.util.List" %>
+    <%@ page import="fintech.dao.RecebimentoDAO" %>
+    <%@ page import="fintech.model.Recebimento" %>
+    <%@ page import="java.text.SimpleDateFormat" %>
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -84,127 +89,77 @@
             <!------------------------------ Fim Header Page ---------------------------->
 
             <!------------------------------ Section ---------------------------->
-            <div class="container-fluid px-4">
-                <div class="row g-3 my-2">
-                    <div class="col-md-6">
-                        <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
-   							 <div>
-      							  <h3 id="valorTotalRecebimentos" class="fs-2">R$ 0.00</h3>
-      							  <p class="fs-5">Recebimento</p>
-  							</div>
-   							 <img src="./imgs/dashboard/coin.png" alt="Recebimento" style="width: 60px;" class="img-fluid">
-					</div>
-                </div>
-
+				<div class="container-fluid px-4">
+				    <div class="row g-3 my-2">
+				        <div class="col-md-6">
+				            <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+				                <div>
+									<%
+									    // Recuperar o valorTotalRecebimentos da sessão
+									    BigDecimal valorTotalRecebimentos = (BigDecimal) request.getSession().getAttribute("valorTotalRecebimentos");
+									
+									    // Exibir o valorTotalRecebimentos se presente na sessão, caso contrário, exibir "0.00"
+									    String valorTotalRecebimentosStr = (valorTotalRecebimentos != null) ? valorTotalRecebimentos.toString() : "0.00";
+									%>
+									
+									<h3 id="valorTotalRecebimentos" class="fs-2">				                       
+									    R$ <%= valorTotalRecebimentosStr %>
+									</h3>
+				                    <p class="fs-5">Recebimento</p>
+				                </div>
+				                <img src="./imgs/dashboard/coin.png" alt="Recebimento" style="width: 60px;" class="img-fluid">
+				            </div>
+				        </div>
+				    </div>
+				</div>
             <!------------------------------ Fim Section ---------------------------->
 
             <!------------------------------ Tabela --------------------------------->
-                <div class="row my-5">
-                    <h3 class="text-success fs-4 mb-3">Histórico</h3>
-                    <div class="col">
-                        <table class="table bg-white rounded shadow-sm table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col" width="50">#</th>
-                                    <th scope="col">Nome</th>
-                                    <th scope="col">Tipo</th>
-                                    <th scope="col">Valor</th>
-                                    <th scope="col">Data</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Notebook</td>
-                                    <td><img src="./imgs/dashboard/coin_waste.png" alt="" style="width: 20px;"></td>
-                                    <td>R$1.200</td>
-                                    <td>26/06/23</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Freelance</td>
-                                    <td><img src="./imgs/dashboard/coin.png" alt="" style="width: 20px;"></td>
-                                    <td>R$750</td>
-                                    <td>24/06/23</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Celular</td>
-                                    <td><img src="./imgs/dashboard/coin_waste.png" alt="" style="width: 20px;"></td>
-                                    <td>R$600</td>
-                                    <td>22/06/23</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">4</th>
-                                    <td>Aluguel</td>
-                                    <td><img src="./imgs/dashboard/coin.png" alt="" style="width: 20px;"></td>
-                                    <td>R$300</td>
-                                    <td>20/06/23</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">5</th>
-                                    <td>Vinícius</td>
-                                    <td><img src="./imgs/dashboard/coin.png" alt="" style="width: 20px;"></td>
-                                    <td>R$120</td>
-                                    <td>15/06/23</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">6</th>
-                                    <td>Shopping</td>
-                                    <td><img src="./imgs/dashboard/coin_waste.png" alt="" style="width: 20px;"></td>
-                                    <td>R$150</td>
-                                    <td>26/05/23</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">7</th>
-                                    <td>Lanche</td>
-                                    <td><img src="./imgs/dashboard/coin_waste.png" alt="" style="width: 20px;"></td>
-                                    <td>R$75</td>
-                                    <td>23/05/23</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">8</th>
-                                    <td>Mãe</td>
-                                    <td><img src="./imgs/dashboard/coin.png" alt="" style="width: 20px;"></td>
-                                    <td>R$36</td>
-                                    <td>18/05/23</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">9</th>
-                                    <td>Lucas</td>
-                                    <td><img src="./imgs/dashboard/coin.png" alt="" style="width: 20px;"></td>
-                                    <td>R$255</td>
-                                    <td>15/05/23</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">10</th>
-                                    <td>Salário</td>
-                                    <td><img src="./imgs/dashboard/coin.png" alt="" style="width: 20px;"></td>
-                                    <td>R$4.000</td>
-                                    <td>13/05/23</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">11</th>
-                                    <td>Viagem</td>
-                                    <td><img src="./imgs/dashboard/coin_waste.png" alt="" style="width: 20px;"></td>
-                                    <td>R$1.236</td>
-                                    <td>10/05/23</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">12</th>
-                                    <td>Joyce</td>
-                                    <td><img src="./imgs/dashboard/coin.png" alt="" style="width: 20px;"></td>
-                                    <td>R$422</td>
-                                    <td>02/05/23</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+				<div class="row my-5">
+				    <h3 class="text-success fs-4 mb-3">Histórico</h3>
+				    <div class="col">
+				        <table class="table bg-white rounded shadow-sm table-hover">
+				            <thead>
+				                <tr>
+				                    <th scope="col" width="50">#</th>
+				                    <th scope="col">Nome</th>
+				                    <th scope="col">Tipo</th>
+				                    <th scope="col">Valor</th>
+				                    <th scope="col">Data</th>
+				                </tr>
+				            </thead>
+				            <tbody>
+				                <%
+				                    // Criar uma instância de RecebimentoDAO
+				                    RecebimentoDAO recebimentoDAO = new RecebimentoDAO();
+				
+				                    // Obter o idUsuario da sessão
+				                    UUID idUsuario = (UUID) request.getSession().getAttribute("idUsuario");
+				
+				                    // Obter a lista de recebimentos usando a instância de RecebimentoDAO
+				                    List<Recebimento> recebimentos = recebimentoDAO.obterRecebimentos(idUsuario);
+				
+				                    // Iterar sobre a lista de recebimentos
+				                    for (int i = 0; i < recebimentos.size(); i++) {
+				                        Recebimento recebimento = recebimentos.get(i);
+				                %>
+				                        <tr>
+				                            <th scope="row"><%= i + 1 %></th>
+				                            <td><%= recebimento.getNomeRecebimento() %></td>
+				                            <td><img src="./imgs/dashboard/coin.png" alt="" style="width: 20px;"></td>
+				                            <td>R$<%= recebimento.getValorRecebimento() %></td>
+				                            <td><%= recebimento.getDataRecebimento() %></td>
+				                        </tr>
+				                <%
+				                    }
+				                %>
+				            </tbody>
+				        </table>
+				    </div>
+				</div>
             <!------------------------------ Fim Tabela --------------------------------->
             </div>
         </div>
-    </div>
     
 
 
@@ -245,6 +200,7 @@
     
     
 <script>
+
     function abrirModalAdicionarRecebimento() {
         $('#modalAdicionarRecebimento').modal('show');
     }
@@ -274,50 +230,27 @@
             success: function () {
                 // Feche o modal após o sucesso
                 $('#modalAdicionarRecebimento').modal('hide');
-
-                // Atualize a página ou faça outras ações após o sucesso
+                
+               
                 location.reload();
             }
         });
     }
 
     $(document).ready(function () {
-        // Função para inicializar o Bootstrap Toggle
         var el = document.getElementById("wrapper");
         var toggleButton = document.getElementById("menu-toggle");
 
         toggleButton.onclick = function () {
             el.classList.toggle("toggled");
         };
-
-        // Atualize o valor total ao carregar a página
-        atualizarValorTotal();
-
-        // Função para atualizar dinamicamente o valor total
-        function atualizarValorTotal() {
-            // Faça uma requisição AJAX para obter o valor total do backend
-            $.ajax({
-                type: "GET",
-                url: "obterValorTotalRecebimentos",
-                success: function (valorTotal) {
-                    // Verifique se valorTotal é um número
-                    if (!isNaN(valorTotal)) {
-                        // Converta o valor para um número, se necessário
-                        valorTotal = Number(valorTotal);
-
-                        // Atualize o valor exibido na página
-                        $('#valorTotalRecebimentos').text('R$ ' + valorTotal.toFixed(2));
-                    } else {
-                        console.error("O valor retornado não é um número:", valorTotal);
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error("Erro na solicitação AJAX:", status, error);
-                }
-            });
-        }
     });
+    
+ 
+
 </script>
+
+
 
 
 

@@ -29,7 +29,7 @@
                 <a href="#" class="list-group-item list-group-item-action bg-transparent second-text active">
                     <img src="./imgs/dashboard/dashboard.png" alt="Dashboard" style="width: 25px;" class="img-fluid me-1">
                 </i>Dashboard</a>
-      		    <a href="./recebimento.jsp" class="list-group-item list-group-item-action bg-transparent second-text text-success fw-bold" onclick="abrirModalAdicionarRecebimento()">
+      		    <a href="./recebimento.jsp" class="list-group-item list-group-item-action bg-transparent second-text text-success fw-bold">
            		 <img src="./imgs/dashboard/coin.png" alt="Recebimento" style="width: 25px;" class="img-fluid me-1">
                   Adicionar Recebimento
                 </a>
